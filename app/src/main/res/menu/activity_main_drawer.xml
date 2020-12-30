@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_item1"
+            android:icon="@drawable/baseline_smartphone_black_18dp"
+            android:title="@string/item_1" />
+        <item
+            android:id="@+id/nav_item2"
+            android:icon="@drawable/baseline_laptop_black_18dp"
+            android:title="@string/item_2" />
+    </group>
+
+    <item android:title="@string/my_profile">
+        <menu>
+            <item
+                android:id="@+id/nav_my_dashboard"
+                android:icon="@drawable/baseline_dashboard_black_18dp"
+                android:title="@string/menu_my_dashboard" />
+            <item
+                android:id="@+id/nav_my_inventory"
+                android:icon="@drawable/ic_person_black_24dp"
+                android:title="@string/menu_my_inventory" />
+            <item
+                android:id="@+id/nav_delete_account"
+                android:icon="@drawable/baseline_delete_sweep_black_18dp"
+                android:title="@string/menu_delete_account" />
+            <item
+                android:id="@+id/nav_sign_out"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="@string/menu_sign_out" />
+        </menu>
+    </item>
+
+    <item android:title="@string/help_support">
+        <menu>
+            <item
+                android:id="@+id/nav_contact_us"
+                android:title="@string/contact_us"
+                android:icon="@drawable/baseline_feedback_black_18dp"/>
+            <item
+                android:id="@+id/nav_share_app"
+                android:title="@string/share_app"
+                android:icon="@drawable/ic_menu_share"/>
+        </menu>
+    </item>
+
+</menu>
