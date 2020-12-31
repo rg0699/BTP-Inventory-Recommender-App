@@ -225,6 +225,7 @@ public class EditActivity extends AppCompatActivity {
                     productNameEditText.setText(product.getProduct_name());
                     productQuantityEditText.setText(product.getProduct_qauntity());
                     productSellingPriceEditText.setText(product.getProduct_selling_price());
+                    productBuyingPriceEditText.setText(product.getProduct_buying_price());
 
                     if(product.getProduct_image()!=null){
                         Glide.with(getApplicationContext()).load(product.getProduct_image()).into(productImage);
@@ -283,10 +284,12 @@ public class EditActivity extends AppCompatActivity {
             case R.id.save:
                 String productNameString = productNameEditText.getText().toString().trim();
                 String quantityString = productQuantityEditText.getText().toString().trim();
-                String priceString = productSellingPriceEditText.getText().toString().trim();
+                String SellPriceString = productSellingPriceEditText.getText().toString().trim();
+                String BuyPriceString = productBuyingPriceEditText.getText().toString().trim();
                 getBytes(imageBitmap);
 
-                if (TextUtils.isEmpty(productNameString) || TextUtils.isEmpty(priceString) || TextUtils.isEmpty(quantityString)) {
+                if (TextUtils.isEmpty(productNameString) || TextUtils.isEmpty(SellPriceString)
+                        || TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(BuyPriceString)) {
                     Toast.makeText(this, getString(R.string.empty_field_toast), Toast.LENGTH_LONG).show();
                 } else {
                     //saveProduct();

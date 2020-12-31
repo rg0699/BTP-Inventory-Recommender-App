@@ -44,7 +44,8 @@
             android:id="@+id/photo"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/default_profile_picture" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_profile_picture" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/name"
@@ -52,9 +53,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginTop="8dp"
-            android:hint="Type your name here"
-            android:textColorHint="@android:color/darker_gray"
-            app:backgroundTint="@color/black"/>
+            android:gravity="center"
+            android:hint="Type your name here" />
 
     </LinearLayout>
 

@@ -12,6 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.store.inventory.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,6 +35,7 @@ public class VerifyPhoneNumberActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     FirebaseAuth mAuth;
     private static String code = "";
+    private FirebaseUser mCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,7 @@ public class VerifyPhoneNumberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_verify_phone_number);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
 
         Intent intent = getIntent();
         final String string = (String) intent.getSerializableExtra("phone");
@@ -65,10 +71,7 @@ public class VerifyPhoneNumberActivity extends AppCompatActivity {
                     mAuth.signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            Intent intent = new Intent(VerifyPhoneNumberActivity.this, SetProfileData.class);
-                            intent.putExtra("phone", string);
-                            startActivity(intent);
-                            finish();
+                            check(string);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -88,10 +91,7 @@ public class VerifyPhoneNumberActivity extends AppCompatActivity {
                                 new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
-                                        Intent intent = new Intent(VerifyPhoneNumberActivity.this, SetProfileData.class);
-                                        intent.putExtra("phone", string);
-                                        startActivity(intent);
-                                        finish();
+                                        check(string);
                                     }
                                 });
                     }
@@ -109,7 +109,38 @@ public class VerifyPhoneNumberActivity extends AppCompatActivity {
                 });
     }
 
+    private void check(final String string) {
+        //showMessage(mCurrentUser.getUid());
+        mCurrentUser = mAuth.getCurrentUser();
+        mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.hasChild(mCurrentUser.getUid())) {
+                    Intent intent = new Intent(VerifyPhoneNumberActivity.this, SetProfileData.class);
+                    intent.putExtra("phone", string);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    Intent intent = new Intent(VerifyPhoneNumberActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public void wrongNumber(View view) {
         onBackPressed();
+    }
+
+    private void showMessage(String s){
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT)
+                .show();
     }
 }

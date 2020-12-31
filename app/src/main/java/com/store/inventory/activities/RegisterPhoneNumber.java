@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -73,11 +74,14 @@ public class RegisterPhoneNumber extends AppCompatActivity {
 
         Spinner countrySpinner = (Spinner) findViewById(R.id.country);
         countrySpinner.setAdapter(adapter);
+        countrySpinner.setSelection(countries.indexOf("India"));
 
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String CountryID= locales[position];
+                //String CountryID= locales[position];
+                //showMessage(CountryID);
+                String CountryID = "IN";
                 String[] rl = getResources().getStringArray(R.array.CountryCodes);
                 for(String x : rl){
                     String[] g = x.split(",");
@@ -116,5 +120,10 @@ public class RegisterPhoneNumber extends AppCompatActivity {
             countries.add(obj.getDisplayCountry());
         }
         return countries;
+    }
+
+    private void showMessage(String s){
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT)
+                .show();
     }
 }

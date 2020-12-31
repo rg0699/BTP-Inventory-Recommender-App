@@ -76,8 +76,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                addUserChangeListener(user);
+                mCurrentUser = firebaseAuth.getCurrentUser();
+                //FirebaseUser user = firebaseAuth.getCurrentUser();
+                addUserChangeListener(mCurrentUser);
             }
         };
 
@@ -240,8 +241,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (user == null) {
             navUsername.setText("LogIn");
             navUsername.setTextSize(18);
+            navUserPhoto.setImageResource(R.drawable.default_profile_picture);
             navUserPhone.setVisibility(View.INVISIBLE);
-            navigationView.getMenu().findItem(R.id.nav_delete_account).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_my_account).setVisible(false);
             headerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -298,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         builder.setMessage(R.string.remove_account);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                reAuth();
+                deleteAccount();
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -339,10 +341,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Your Account is deleted:(", Toast.LENGTH_SHORT).show();
+                                showMessage("Your Account is deleted:(");
                                 finish();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Failed to delete your account!", Toast.LENGTH_SHORT).show();
+                                showMessage("Failed to delete your account!");
                             }
                         }
                     });
@@ -350,7 +352,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void deleteUserData(String userId) {
-        mDatabase.child("users").child(userId).removeValue();
         storageRef.child("profilePictures/" + userId + ".jpg").delete();
         Query query = mDatabase.child("products").orderByChild("supplier_id").equalTo(userId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -366,15 +367,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+        mDatabase.child("users").child(userId).removeValue();
     }
 
     private void signOut() {
         mAuth.signOut();
-        Toast.makeText(
-                getApplicationContext(),
-                "Logged Out",
-                Toast.LENGTH_SHORT)
-                .show();
+        showMessage("Logged Out");
+        //startActivity(new Intent(getApplicationContext(),RegisterPhoneNumber.class));
     }
 
     private void shareApplication() {
