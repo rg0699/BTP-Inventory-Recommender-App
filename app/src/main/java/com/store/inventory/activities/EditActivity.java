@@ -127,7 +127,6 @@ public class EditActivity extends AppCompatActivity {
         categorySpinner = findViewById(R.id.categorySpinner);
         categories = new ArrayList<>();
         categories.addAll(MainActivity.categoriesList);
-        categories.add("Other");
         categorySpinner.setAdapter(new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_list_item_1, categories));
 
