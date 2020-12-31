@@ -79,9 +79,8 @@ public class RegisterPhoneNumber extends AppCompatActivity {
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //String CountryID= locales[position];
+                String CountryID= locales[position];
                 //showMessage(CountryID);
-                String CountryID = "IN";
                 String[] rl = getResources().getStringArray(R.array.CountryCodes);
                 for(String x : rl){
                     String[] g = x.split(",");

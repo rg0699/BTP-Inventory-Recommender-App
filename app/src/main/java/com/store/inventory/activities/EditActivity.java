@@ -369,6 +369,10 @@ public class EditActivity extends AppCompatActivity {
             message1 = "Inventory Updated Successfully!!";
         }
 
+        final ProgressDialog dialog = ProgressDialog.show(this,
+                "Please wait!", message,
+                true);
+
         if(mImageUri!=null) {
 
             final StorageReference filepath = storageRef.child("productPictures/" + supplierId)
@@ -377,9 +381,6 @@ public class EditActivity extends AppCompatActivity {
             /*from google doc*/
             Log.d("image name", String.valueOf(mImageUri));
 
-            final ProgressDialog dialog = ProgressDialog.show(this,
-                    "Please wait!", message,
-                    true);
             UploadTask uploadTask = filepath.putFile(mImageUri);
 
             final DatabaseReference finalNewProduct = newProduct;
@@ -427,9 +428,6 @@ public class EditActivity extends AppCompatActivity {
             });
         }
         else {
-            final ProgressDialog dialog = ProgressDialog.show(this,
-                    "Please wait!", message,
-                    true);
 
             Product product = new Product(stringProductName, stringQuantity,stringSellPrice,stringBuyPrice, category,
                     mCurrentUser.getUid());
