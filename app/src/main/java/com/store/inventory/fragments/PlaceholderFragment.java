@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +56,11 @@ public class PlaceholderFragment extends Fragment {
     private FirebaseUser mCurrentUser;
     private DatabaseReference mDatabase;
     private StorageReference storageRef;
+    private RecyclerView recommended_product_view;
+    private List<Product> recommended_product_list;
+    private TextView mpp;
+    private TextView txt;
+    private ScrollView scrollView;
 
 
     public static PlaceholderFragment newInstance(String category, int position) {
@@ -90,11 +96,13 @@ public class PlaceholderFragment extends Fragment {
 
         progressBar = root.findViewById(R.id.my_progress_bar);
         textView = root.findViewById(R.id.my_textView);
+        scrollView = root.findViewById(R.id.scrollView);
         splash = root.findViewById(R.id.splash);
         listView = root.findViewById(R.id.list_view);
+        recommended_product_view = root.findViewById(R.id.recommended_product_view);
         emptyView = root.findViewById(R.id.empty_view);
-        listView.setVisibility(View.INVISIBLE);
-        emptyView.setVisibility(View.INVISIBLE);
+        scrollView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.GONE);
         splash.setVisibility(View.VISIBLE);
 
         mAuth = FirebaseAuth.getInstance();
@@ -103,13 +111,23 @@ public class PlaceholderFragment extends Fragment {
         storageRef = FirebaseStorage.getInstance().getReference();
 
         product_list = new ArrayList<>();
+        recommended_product_list = new ArrayList<>();
 
         listView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recommended_product_view.setLayoutManager(new LinearLayoutManager(requireContext(),
+                LinearLayoutManager.HORIZONTAL,false));
         listView.setHasFixedSize(true);
 
         getAllProducts(category);
+        getAllRecommendedProducts(category);
 
         return root;
+    }
+
+    private void getAllRecommendedProducts(String category) {
+
+
+
     }
 
     private void showProducts(){
@@ -117,14 +135,15 @@ public class PlaceholderFragment extends Fragment {
         splash.setVisibility(View.INVISIBLE);
 
         if(product_list.size()==0){
-            listView.setVisibility(View.GONE);
+            scrollView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
         }
         else {
             emptyView.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.VISIBLE);
             productAdapter = new ProductAdapter(requireContext(),product_list);
             listView.setAdapter(productAdapter);
+            recommended_product_view.setAdapter(productAdapter);
         }
 
     }

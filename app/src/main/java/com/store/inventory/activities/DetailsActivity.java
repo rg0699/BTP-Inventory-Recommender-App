@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
+import java.util.Arrays;
+
 public class DetailsActivity extends AppCompatActivity {
 
     TextView supplierPhoneTextView;
@@ -42,6 +46,8 @@ public class DetailsActivity extends AppCompatActivity {
     TextView productPriceTextView;
     TextView productQuantityTextView;
     ImageView productImage;
+    TextView productRating;
+    TextView productRatingCount;
 
     private Button callSupplierButton;
     private Bitmap bitmap;
@@ -56,6 +62,12 @@ public class DetailsActivity extends AppCompatActivity {
     private LinearLayout shareLayout;
     private LinearLayout wishListLayout;
     private ImageView btnLike;
+    private RatingBar ratingbar;
+    private Button rating_submit_button;
+    private LinearLayout rateThisProduct;
+    private LinearLayout yourRating;
+    private TextView customerRating;
+    private Button change_rating_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +103,37 @@ public class DetailsActivity extends AppCompatActivity {
         shareLayout = findViewById(R.id.share);
         wishListLayout = findViewById(R.id.wishlist);
         btnLike = findViewById(R.id.btn_like);
+
+        rateThisProduct = findViewById(R.id.rate_this_product);
+        yourRating = findViewById(R.id.your_rating);
+        customerRating = findViewById(R.id.customer_rating);
+        change_rating_button =(Button)findViewById(R.id.change_rating_button);
+        productRating = findViewById(R.id.details_customer_ratings);
+        productRatingCount = findViewById(R.id.details_customer_count);
+        ratingbar=(RatingBar)findViewById(R.id.ratingBar);
+        rating_submit_button =(Button)findViewById(R.id.rating_submit_button);
+
+        rating_submit_button.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View arg0) {
+                //Getting the rating and displaying it on the toast
+                String rating=String.valueOf(ratingbar.getRating());
+                sendRatingToFirebase(rating);
+                showMessage(rating);
+            }
+
+        });
+
+        change_rating_button.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View arg0) {
+                rateThisProduct.setVisibility(View.VISIBLE);
+                yourRating.setVisibility(View.GONE);
+            }
+
+        });
 
         callSupplierButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -131,6 +174,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         productId = getIntent().getStringExtra("productId");
         //supplierId = getIntent().getStringExtra("supplierId");
+        //getRatings();
         getProductDetails();
         //getSupplierDetails();
 
@@ -139,7 +183,51 @@ public class DetailsActivity extends AppCompatActivity {
         }
         else {
             setLikeButton();
+            setRatingLayout();
         }
+    }
+
+    private void setRatingLayout() {
+
+        final boolean[] x = {false};
+        final String[] r = {null};
+
+        mDatabase.child("product_ratings").child(productId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                    if (snap.getKey().equals(mCurrentUser.getUid())) {
+                        x[0] = true;
+                        r[0] = snap.getValue().toString();
+                        break;
+                    }
+                }
+                if(x[0]){
+                    rateThisProduct.setVisibility(View.GONE);
+                    yourRating.setVisibility(View.VISIBLE);
+                    customerRating.setText(r[0]);
+                }
+                else {
+                    rateThisProduct.setVisibility(View.VISIBLE);
+                    yourRating.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+    private void sendRatingToFirebase(String rating) {
+
+        DatabaseReference newRating = mDatabase.child("product_ratings").child(productId);
+        newRating.child(mCurrentUser.getUid()).setValue(rating);
+
+        rateThisProduct.setVisibility(View.GONE);
+        yourRating.setVisibility(View.VISIBLE);
+        customerRating.setText(rating);
     }
 
     private void addToWishlist() {
@@ -203,9 +291,35 @@ public class DetailsActivity extends AppCompatActivity {
                     if(product.getProduct_image()!=null){
                         Glide.with(getApplicationContext()).load(product.getProduct_image()).into(productImage);
                     }
+                    getRatings();
                     supplierId = product.getSupplier_id();
                     getSupplierDetails();
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void getRatings() {
+
+        final double[] x = new double[1];
+
+        mDatabase.child("product_ratings").child(productId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap: snapshot.getChildren()) {
+                    x[0] += Double.parseDouble(String.valueOf(snap.getValue()));
+                }
+                double y = (double)x[0]/snapshot.getChildrenCount();
+                DecimalFormat df = new DecimalFormat("###.##");
+                productRating.setText(df.format(y));
+                productRatingCount.setText(String.valueOf((snapshot.getChildrenCount())));
+
             }
 
             @Override

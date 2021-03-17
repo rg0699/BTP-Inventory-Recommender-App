@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/activity_item_details"
+<LinearLayout android:id="@+id/activity_item_details"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context="com.store.inventory.activities.DetailsActivity">
+    tools:context="com.store.inventory.activities.DetailsActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
   <ScrollView android:id="@+id/scrollbar"
               android:layout_width="match_parent"
               android:layout_height="0dp"
@@ -35,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:text="Denim Shirt"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     android:textColor="@color/black"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -73,8 +74,7 @@
                     android:layout_height="wrap_content"
                     android:text="Quantity : "
                     android:textSize="16sp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/details_quantity"
@@ -85,6 +85,46 @@
                     android:textColor="@color/black" />
 
             </LinearLayout>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:layout_marginTop="8dp">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Customer Ratings : "
+                  android:textSize="16sp"
+                  android:textColor="@color/black" />
+              <TextView
+                  android:id="@+id/details_customer_ratings"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="4.5"
+                  android:textSize="16sp"
+                  android:textStyle="bold"
+                  android:textColor="@color/colorPrimary" />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text=" based on "
+                  android:textSize="16sp"
+                  android:textColor="@color/black" />
+              <TextView
+                  android:id="@+id/details_customer_count"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="10"
+                  android:textSize="16sp"
+                  android:textColor="@color/black" />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text=" users"
+                  android:textSize="16sp"
+                  android:textColor="@color/black" />
+          </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -156,6 +196,82 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/black" />
+
+      <LinearLayout
+          android:id="@+id/rate_this_product"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginVertical="16dp"
+          android:gravity="center"
+          android:orientation="vertical">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Rate this Product"
+              android:textSize="28sp"
+              android:textStyle="bold"
+              android:textColor="@color/colorPrimary"/>
+
+          <RatingBar
+              android:id="@+id/ratingBar"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingVertical="10dp" />
+
+          <Button
+              android:id="@+id/rating_submit_button"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Submit"
+              android:textSize="18dp"
+              android:textColor="@color/black"
+              android:textStyle="bold" />
+
+      </LinearLayout>
+
+          <LinearLayout
+              android:id="@+id/your_rating"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginVertical="16dp"
+              android:gravity="center"
+              android:orientation="vertical">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="You have Rated this Product"
+                  android:textSize="28sp"
+                  android:textStyle="bold"
+                  android:gravity="center"
+                  android:textColor="@color/colorPrimary"/>
+
+              <TextView
+                  android:id="@+id/customer_rating"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="4.5"
+                  android:textSize="28sp"
+                  android:textStyle="bold"
+                  android:textColor="@color/colorAccent"/>
+
+              <Button
+                  android:id="@+id/change_rating_button"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Change your Rating"
+                  android:textSize="18dp"
+                  android:textColor="@color/black"
+                  android:textStyle="bold" />
+
+          </LinearLayout>
+
+
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
