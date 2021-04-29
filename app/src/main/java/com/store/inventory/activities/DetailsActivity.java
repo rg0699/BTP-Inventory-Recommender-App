@@ -68,6 +68,7 @@ public class DetailsActivity extends AppCompatActivity {
     private LinearLayout yourRating;
     private TextView customerRating;
     private Button change_rating_button;
+    private TextView productSpecsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,7 @@ public class DetailsActivity extends AppCompatActivity {
         productNameTextView = findViewById(R.id.details_product_name);
         productPriceTextView = findViewById(R.id.details_price);
         productQuantityTextView = findViewById(R.id.details_quantity);
+        productSpecsTextView = findViewById(R.id.details_product_specs);
         productImage = findViewById(R.id.details_image);
         supplierNameTextView = findViewById(R.id.details_supplier_name);
         supplierPhoneTextView = findViewById(R.id.details_supplier_phone);
@@ -287,6 +289,7 @@ public class DetailsActivity extends AppCompatActivity {
                     productNameTextView.setText(product.getProduct_name());
                     productQuantityTextView.setText(product.getProduct_qauntity());
                     productPriceTextView.setText(product.getProduct_selling_price());
+                    productSpecsTextView.setText(product.getProduct_specs());
 
                     if(product.getProduct_image()!=null){
                         Glide.with(getApplicationContext()).load(product.getProduct_image()).into(productImage);

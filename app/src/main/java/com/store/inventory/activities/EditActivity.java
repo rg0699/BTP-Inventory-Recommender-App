@@ -92,6 +92,7 @@ public class EditActivity extends AppCompatActivity {
     private Uri mImageUri;
     private String supplierId;
     private EditText productBuyingPriceEditText;
+    private EditText productSpecsEditText;
 
     public static byte[] getBytes(Bitmap bitmap) {
         if (bitmap != null) {
@@ -119,6 +120,7 @@ public class EditActivity extends AppCompatActivity {
         productQuantityEditText = findViewById(R.id.edit_quantity);
         productSellingPriceEditText = findViewById(R.id.edit_selling_price);
         productBuyingPriceEditText = findViewById(R.id.edit_buying_price);
+        productSpecsEditText = findViewById(R.id.edit_product_specs);
         supplierNameEditText = findViewById(R.id.edit_supplier_name);
         supplierPhoneEditText = findViewById(R.id.edit_supplier_phone);
         photoButton = findViewById(R.id.photo_button);
@@ -225,6 +227,7 @@ public class EditActivity extends AppCompatActivity {
                     productQuantityEditText.setText(product.getProduct_qauntity());
                     productSellingPriceEditText.setText(product.getProduct_selling_price());
                     productBuyingPriceEditText.setText(product.getProduct_buying_price());
+                    productSpecsEditText.setText(product.getProduct_specs());
 
                     if(product.getProduct_image()!=null){
                         Glide.with(getApplicationContext()).load(product.getProduct_image()).into(productImage);
@@ -285,9 +288,10 @@ public class EditActivity extends AppCompatActivity {
                 String quantityString = productQuantityEditText.getText().toString().trim();
                 String SellPriceString = productSellingPriceEditText.getText().toString().trim();
                 String BuyPriceString = productBuyingPriceEditText.getText().toString().trim();
+                String specsString = productSpecsEditText.getText().toString().trim();
                 getBytes(imageBitmap);
 
-                if (TextUtils.isEmpty(productNameString) || TextUtils.isEmpty(SellPriceString)
+                if (TextUtils.isEmpty(productNameString) || TextUtils.isEmpty(SellPriceString) || TextUtils.isEmpty(specsString)
                         || TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(BuyPriceString)) {
                     Toast.makeText(this, getString(R.string.empty_field_toast), Toast.LENGTH_LONG).show();
                 } else {
@@ -352,6 +356,7 @@ public class EditActivity extends AppCompatActivity {
         final String stringQuantity = productQuantityEditText.getText().toString().trim();
         final String stringSellPrice = productSellingPriceEditText.getText().toString().trim();
         final String stringBuyPrice = productBuyingPriceEditText.getText().toString().trim();
+        final String stringSpecs = productSpecsEditText.getText().toString().trim();
         //byte[] imageByte = getBytes(imageBitmap);
         final String category = categories.get(categorySpinner.getSelectedItemPosition());
 
@@ -402,7 +407,7 @@ public class EditActivity extends AppCompatActivity {
                         //userRef.child("photo").setValue(downloadUri.toString());
 
                         Product product = new Product(stringProductName, stringQuantity, stringSellPrice, stringBuyPrice,
-                                downloadUri.toString(), category, mCurrentUser.getUid());
+                                stringSpecs, downloadUri.toString(), category, mCurrentUser.getUid());
                         if(what.equals("add")){
                             String key = finalNewProduct.getKey();
                             product.setProduct_id(key);
@@ -429,7 +434,7 @@ public class EditActivity extends AppCompatActivity {
         }
         else {
 
-            Product product = new Product(stringProductName, stringQuantity,stringSellPrice,stringBuyPrice, category,
+            Product product = new Product(stringProductName, stringQuantity,stringSellPrice,stringBuyPrice, stringSpecs, category,
                     mCurrentUser.getUid());
 
             String key = newProduct.getKey();

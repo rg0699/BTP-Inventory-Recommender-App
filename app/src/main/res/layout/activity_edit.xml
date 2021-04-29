@@ -43,6 +43,17 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
+            <TextView
+                android:id="@+id/text_product_details"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Product Details"
+                android:layout_marginVertical="8dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
             <EditText
                 android:id="@+id/edit_product_name"
                 android:hint="Product Name"
@@ -70,6 +81,13 @@
                 android:layout_width="match_parent"
                 android:hint="Buying Price"
                 android:inputType="number" />
+
+            <EditText
+                android:id="@+id/edit_product_specs"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:hint="Product Specifications"
+                android:inputType="textMultiLine" />
 
             <TextView
                 android:id="@+id/text_supplier_details"
