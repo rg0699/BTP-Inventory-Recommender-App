@@ -1,16 +1,21 @@
 package com.store.inventory.models;
 
-public class Pair
-{
-    private final Double key;
-    private Product product;
+public class Pair extends Product {
 
-    public Pair(Double aKey, Product aproduct)
+    public Double key;
+    //public Product product;
+    public String productId;
+
+    public Pair() {
+
+    }
+
+    public Pair(Double key, String productId)
     {
-        key   = aKey;
-        product = aproduct;
+        this.key   = key;
+        this.productId = productId;
     }
 
     public Double getKey()   { return key; }
-    public Product getProduct() { return product; }
+    public String getProductId() { return productId; }
 }

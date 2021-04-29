@@ -97,6 +97,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
         return products.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     public class ProductsViewHolder extends RecyclerView.ViewHolder{
 
         LinearLayout product_layout;
