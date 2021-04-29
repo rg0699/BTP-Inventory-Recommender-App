@@ -188,7 +188,7 @@ public class PlaceholderFragment extends Fragment {
                     }
                 });
 
-                showMessage(String.valueOf(recommended_product_list.get(0).getKey()));
+                //showMessage(String.valueOf(recommended_product_list.get(0).getKey()));
 
                 for (int i=0;i<min(10,recommended_product_list.size());i++){
                     mDatabase.child("products").child(recommended_product_list.get(i).getProductId())
