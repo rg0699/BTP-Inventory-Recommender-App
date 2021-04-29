@@ -47,8 +47,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Prod
         holder.product_name.setText(products.get(position).getProduct_name());
         holder.product_profit.setText(String.valueOf(bq * (Integer.parseInt(products.get(position).getProduct_selling_price())
                 - Integer.parseInt(products.get(position).getProduct_buying_price()))));
-        //holder.product_qauntity.setText(String.valueOf(products.get(position).getProduct_qauntity()));
-        //holder.product_price.setText(String.valueOf(products.get(position).getProduct_price()));
 
         if(products.get(position).getProduct_image() != null){
             Glide.with(mContext).load(products.get(position).getProduct_image()).into(holder.product_image);
@@ -59,6 +57,16 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Prod
     @Override
     public int getItemCount() {
         return products.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     public class ProductsViewHolder extends RecyclerView.ViewHolder{
@@ -72,8 +80,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Prod
         public ProductsViewHolder(View itemView) {
             super(itemView);
             product_image = itemView.findViewById(R.id.product_image);
-            //product_qauntity = itemView.findViewById(R.id.product_quantity);
-            //product_price = itemView.findViewById(R.id.product_price);
             product_name = itemView.findViewById(R.id.product_name);
             product_layout = itemView.findViewById(R.id.product_layout);
             product_profit = itemView.findViewById(R.id.product_profit);

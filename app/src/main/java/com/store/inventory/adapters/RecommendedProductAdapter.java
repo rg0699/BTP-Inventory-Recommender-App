@@ -48,10 +48,10 @@ public class RecommendedProductAdapter extends RecyclerView.Adapter<RecommendedP
     @Override
     public void onBindViewHolder(@NonNull final ProductsViewHolder holder, int position) {
 
-        String s = products.get(position).getProduct_id();
+//        String s = products.get(position).getProduct_id();
 
-        DatabaseReference mDatabaseUsers = FirebaseDatabase.getInstance().getReference("products").child(s);
-        mDatabaseUsers.keepSynced(true);
+//        DatabaseReference mDatabaseUsers = FirebaseDatabase.getInstance().getReference("products").child(s);
+//        mDatabaseUsers.keepSynced(true);
 
 //        mDatabaseUsers.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override

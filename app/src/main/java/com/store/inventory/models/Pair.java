@@ -1,9 +1,8 @@
 package com.store.inventory.models;
 
-public class Pair extends Product {
+public class Pair {
 
     public Double key;
-    //public Product product;
     public String productId;
 
     public Pair() {

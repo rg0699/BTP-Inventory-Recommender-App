@@ -48,39 +48,39 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
     @Override
     public void onBindViewHolder(@NonNull final ProductsViewHolder holder, int position) {
 
-        String s = products.get(position).getProduct_id();
+//        String s = products.get(position).getProduct_id();
 
-        DatabaseReference mDatabaseUsers = FirebaseDatabase.getInstance().getReference("products").child(s);
-        mDatabaseUsers.keepSynced(true);
-
-        mDatabaseUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Product product = dataSnapshot.getValue(Product.class);
-
-                if (product == null) {
-
-                    Toast.makeText(
-                            mContext,
-                            "Product data is null!",
-                            Toast.LENGTH_SHORT)
-                            .show();
-                }
-                else {
-                    holder.product_name.setText(product.product_name);
-                    holder.product_qauntity.setText(product.product_qauntity);
-                    holder.product_price.setText(product.product_selling_price);
-                    if(product.product_image != null){
-                        Glide.with(mContext).load(product.product_image).into(holder.product_image);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        DatabaseReference mDatabaseUsers = FirebaseDatabase.getInstance().getReference("products").child(s);
+//        mDatabaseUsers.keepSynced(true);
+//
+//        mDatabaseUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                Product product = dataSnapshot.getValue(Product.class);
+//
+//                if (product == null) {
+//
+//                    Toast.makeText(
+//                            mContext,
+//                            "Product data is null!",
+//                            Toast.LENGTH_SHORT)
+//                            .show();
+//                }
+//                else {
+//                    holder.product_name.setText(product.product_name);
+//                    holder.product_qauntity.setText(product.product_qauntity);
+//                    holder.product_price.setText(product.product_selling_price);
+//                    if(product.product_image != null){
+//                        Glide.with(mContext).load(product.product_image).into(holder.product_image);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
         holder.product_name.setText(products.get(position).getProduct_name());
         holder.product_qauntity.setText(String.valueOf(products.get(position).getProduct_qauntity()));
